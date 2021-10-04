@@ -19,19 +19,21 @@ public:
     int numeroElementos;
 
     //metodos
-    int getDado(int posicao);
+    int getDado(int posicao);//implementada: retorna  o valor do i-ésimo dado.
 
-    Pagina* busca(int elemento);
-    void insere(int novoDado);
-    void remover(int elemento);
-    void percorre();
-    void visita();
-    void split();
+    Pagina* busca(int elemento);//não terminada
+    void insere(int novoDado);//implementada
+    void remover(int elemento);//não terminada
+    void percorre();//implementada
+    void visita();//pode melhorar
+
 
 private:
         int dados[TAMANHO-1];
         void desenhaLinha(int espaco);
 protected:
+    void split();//implementada
+
     void inserePonteiroFilho(Pagina *no,int posicao);
     bool ehFolha();
     void encheu();

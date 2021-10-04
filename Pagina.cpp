@@ -150,7 +150,11 @@ void Pagina::insereDado(int novoDado)
 /**
  *  Função insere: função rescursiva que realiza a inserção de um elemento nesta pagina,
  * para isso ela avalia se pagina é possui filhos, se sim busca em qual filho inserir elemento
- * e se não insere nela propria ordenadamente.*/
+ * e se não insere nela propria ordenadamente.
+ *
+ *  Também reorganiza a arvore a partir da raiz a cada inserção.
+
+ * TODO: ela pode melhorar especialmente no uso da função reorganiza, agindo apenas no ramo da arvore que sofreu inserção.*/
 void Pagina::insere(int novoDado){
     Pagina *pagina=this;
     int ondeFoiInserido;//variaveis importantes para avaliarmos se vamos absorver o nó
@@ -324,6 +328,9 @@ void Pagina::paternidade()
     }
 }
 
+/**
+ *      Função arrumaPonteiros: auxiliar de split(), percorre o nó recém divido apagando filhos que deveriam ter sido movidos para
+ * baixo.*/
 void Pagina::arrumaPonteiros()
 {
     if(this->numeroElementos==1)//se for um 2-nó preserva os 2 primeiros filhos e o resto NULL.
@@ -371,8 +378,8 @@ void Pagina :: absorve(Pagina *no)
 
 }
 /**
- *      Função inserePonteiroFilho: insere um ponteiro para um novo filho no meio dos filhos de uma pagina,
- * salva o ponteiro que la estava e o desloca para direita até o fim da pagina.
+ *      Função inserePonteiroFilho: auxiliar de absorve.Insere um ponteiro, fruto de uma absorção, em uma determinada posição, movendo
+ * os demais filhos para a esquerda.
  */
 void Pagina::inserePonteiroFilho(Pagina *no,int posicao)
 {
@@ -400,67 +407,7 @@ bool Pagina :: ehFolha()
     return folha;
 }
 
-/**
- *      Função busca: realiza a busca dentro da pagina caso não encontre manda para pagina abaixo mais proxima.
- * caso não encontre retorna NULL.
- *
- *      OBS:NÃO IMPLEMENTADA.*/
 
-Pagina* Pagina::busca(int elemento)
-{
-    Pagina *encontrada=NULL;
-    int iteracoes=this->numeroElementos,i=0;
-    bool folha=this->ehFolha();
-    if(folha)
-    {
-        while(i<iteracoes || encontrada!=NULL)
-        {
-            if(this->dados[i]==elemento){
-                encontrada=this;
-            }else if(elemento<this->dados[i]){
-                encontrada=this->filhos[i]->busca(elemento);
-            }else if(elemento > this->dados[i]){
-                encontrada=this->filhos[i+1]->busca(elemento);
-            }
-            i++;
-        }
-    }else
-    {//se não tem filhos basta percorrer este nó e ver se encontra o elemento.
-        for(i=0;i<TAMANHO-1;i++)
-        {
-            if(this->dados[i]==elemento){
-                encontrada=this;
-                break;
-            }
-        }
-    }
-    return encontrada;
-}
-/**
- *  FUNÇÃO REMOVER NÃO IMPLEMENTADA.*/
-void Pagina::remover(int elemento)
-{
-    Pagina *paginaAlvo=busca(elemento);
-
-    if(paginaAlvo!=NULL)
-    {
-        int i=0;
-        while(i<TAMANHO-1){
-            if(this->dados[i]==elemento){
-                this->retiraDado(i);
-
-                bool folha=this->ehFolha();
-                if(folha){
-                    //puxa os elementos todos para preencher o espaço vago.
-                }else{
-                    //se tiver filho precisa promovê-lo.
-                }
-                break;
-            }
-            i++;
-        }
-    }
-}
 /**
  *  Função reorganizaFilhos: percorre cada no da arvore rescursivamente setando os pais.*/
 void Pagina::reorganizaFilhos()
@@ -596,4 +543,82 @@ void Pagina::visita()
 
 
 
+}
+
+
+/*****************************************************************************************************************************************
+ *****************************************************************************************************************************************
+ ******************************************          Demais funções da árvore        *****************************************************
+ *          As funções acima foram majoritariamente criadas para auxiliarem na inserção somente, embora poram ser úteis inclusive fora
+ * da classe, ainda faltam as funcionalidades para busca e remoção.
+ *
+
+
+
+
+
+ *****************************************************************************************************************************************
+ *****************************************************************************************************************************************
+  */
+
+/**
+ *      Função busca: realiza a busca dentro da pagina caso não encontre manda para pagina abaixo mais proxima.
+ * caso não encontre retorna NULL.
+ *
+ *      OBS:NÃO IMPLEMENTADA.*/
+
+Pagina* Pagina::busca(int elemento)
+{
+    Pagina *encontrada=NULL;
+    int iteracoes=this->numeroElementos,i=0;
+    bool folha=this->ehFolha();
+    if(folha)
+    {
+        while(i<iteracoes || encontrada!=NULL)
+        {
+            if(this->dados[i]==elemento){
+                encontrada=this;
+            }else if(elemento<this->dados[i]){
+                encontrada=this->filhos[i]->busca(elemento);
+            }else if(elemento > this->dados[i]){
+                encontrada=this->filhos[i+1]->busca(elemento);
+            }
+            i++;
+        }
+    }else
+    {//se não tem filhos basta percorrer este nó e ver se encontra o elemento.
+        for(i=0;i<TAMANHO-1;i++)
+        {
+            if(this->dados[i]==elemento){
+                encontrada=this;
+                break;
+            }
+        }
+    }
+    return encontrada;
+}
+/**
+ *  FUNÇÃO REMOVER NÃO IMPLEMENTADA.*/
+void Pagina::remover(int elemento)
+{
+    Pagina *paginaAlvo=busca(elemento);
+
+    if(paginaAlvo!=NULL)
+    {
+        int i=0;
+        while(i<TAMANHO-1){
+            if(this->dados[i]==elemento){
+                this->retiraDado(i);
+
+                bool folha=this->ehFolha();
+                if(folha){
+                    //puxa os elementos todos para preencher o espaço vago.
+                }else{
+                    //se tiver filho precisa promovê-lo.
+                }
+                break;
+            }
+            i++;
+        }
+    }
 }
