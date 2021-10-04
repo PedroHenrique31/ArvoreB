@@ -154,7 +154,7 @@ void Pagina::insereDado(int novoDado)
 void Pagina::insere(int novoDado){
     Pagina *pagina=this;
     int ondeFoiInserido;//variaveis importantes para avaliarmos se vamos absorver o nó
-    cout << "inserindo "<<novoDado << " ";
+    //cout << "inserindo "<<novoDado << " ";
 
 
     //AVALIA SE NÓ É UMA FOLHA (SE NÃO POSSUI FILHOS).
@@ -163,20 +163,20 @@ void Pagina::insere(int novoDado){
     if(folha)
     {
         //CASO 1.1:NÓ É UMA FOLHA E NÃO ESTÁ CHEIO.
-        cout <<"CASO 1 ";
+        //cout <<"CASO 1 ";
         this->encheu();
 
         if(!this->cheia)
         {
-            cout <<"arvore não cheia --> ";
+            //cout <<"arvore não cheia --> ";
             this->insereDado(novoDado);
-            cout<<"inseriu novo dado-- ";
+            //cout<<"inseriu novo dado-- ";
             this->encheu();//VERIFICA SE ENCHEU.
-            cout <<"encheu: " << this->cheia<< "\n";
+            //cout <<"encheu: " << this->cheia<< "\n";
             if(this->cheia){//se encheu nó se divide a si mesmo, como é uma folha nao precisa retornar nada.
-                cout << "-------------------- Antes de dividir ------------------------------\n";
-                this->visita();
-                cout << "-------------------- Antes de dividir ------------------------------\n";
+                //cout << "-------------------- Antes de dividir ------------------------------\n";
+                //this->visita();
+                //cout << "-------------------- Antes de dividir ------------------------------\n";
                 this->split();
             }
 
@@ -187,29 +187,30 @@ void Pagina::insere(int novoDado){
         //2.1:PERCORRE OS ELEMENTOS PROCURANDO ONDE INSERIR.
 
         int iteracoes=this->numeroElementos,aposInsercao;
-        cout <<"CASO 2 "<<novoDado <<" compara "<<this->dados[iteracoes-1]<<endl;
+        //cout <<"CASO 2 "<<novoDado <<" compara "<<this->dados[iteracoes-1]<<endl;
+        //cout << "CASO 2\n";
         for (int i=0;i<=iteracoes;i++)
         {
-            cout <<"entrou no for i= "<<i<<"\n";
+
             if(novoDado<=this->dados[i])
             {//2.1.1: SE NOVO DADO FOR MENOR OU IGUAL AO I-ESIMO DADO INSERE ABAIXO DESTE NO.
-                cout << "novoDado: "<<novoDado<< "<="<<this->dados[i]<<endl;
+                //cout << "novoDado: "<<novoDado<< "<="<<this->dados[i]<<endl;
                 if(this->filhos[i]!=NULL)
                 {//caso nó-filho exista.
                     this->filhos[i]->insere(novoDado);
                     ondeFoiInserido=i;
-                    this->filhos[i]->visita();//remover depois
+                    //this->filhos[i]->visita();//remover depois
                     this->encheu();
                     if(this->cheia){
                         this->split();
                     }
                     break;
                 }else{//caso this->filho[i]==NULL
-                    cout << "novoDado: "<<novoDado<< "<="<<this->dados[i]<<", mas filho==NULL"<<endl;
+                    //cout << "novoDado: "<<novoDado<< "<="<<this->dados[i]<<", mas filho==NULL"<<endl;
                     Pagina *proximo=new Pagina(this); //cria nova pagina
                     proximo->insere(novoDado); // insere novoDado nesta pagina
-                    cout <<"Após inserir em pagina recém criada.\n";
-                    proximo->visita();
+                    //cout <<"Após inserir em pagina recém criada.\n";
+                    //proximo->visita();
                     this->filhos[i]=proximo; // adiciona esta pagina como i-ésimo filho.
                     this->encheu();// verifica se encheu -Obviamente que não mas é importante verificar smepre-
                     ondeFoiInserido=i;
@@ -219,13 +220,10 @@ void Pagina::insere(int novoDado){
 
         }//FIM 2.1
         aposInsercao=this->numeroElementos;//se este nó foi divido ele tera apenas 1 elemento após 2.1
-        cout << "elementos de "<< this<<" apos insercao: "<<aposInsercao<< " antes: "<<iteracoes<<endl;
-        //área de estudo para saber se usarei essa infomração
+
         if(novoDado>this->dados[iteracoes-1])
         {//2.1.2: se for maior que o o maior elemento desta pagina.
-                cout << "novoDado: "<<novoDado<< ">="<<this->dados[iteracoes-1]<< " essa linha quem chamou foi: "<<this->dados[iteracoes-1]
-                <<" da pagina : "<<this <<endl;
-                cout <<"filho[i+1]: "<<this->filhos[iteracoes]<<endl;
+
                 ///ele só comparará com 0 se o elemento anterior for negativo, pois pode ocorrer dele voltar e esse ter sido dividido.
                 if(dados[iteracoes-1]==0){
                     if(dados[iteracoes-2]>0){
@@ -254,10 +252,10 @@ void Pagina::insere(int novoDado){
     }//FIM CASO 2.
     this->reorganizaFilhos();//Percorre a arvore fazendo os filhos apontarem os pais
     if(this->pai==NULL){
-        cout <<"raiz chamou essa funcao\n";
+
         this->reorganiza();//percorre a arvore absorvendo os 2-nos soltos
-        //this->separaNosCheios();//percorre arvore fazendo split em nos grandes e absorventos o que for possivel.
-        cout << "fim chamada estamos na raiz\n";
+
+
         this->encheu();
         if(this->cheia){this->split();this->arrumaPonteiros();}
     }
@@ -268,12 +266,12 @@ void Pagina::insere(int novoDado){
  * tornando este um 2-nó.*/
 void Pagina::split()
 {
-    cout <<"\nsplit"<<"("<<this<<")"<<" ";
+    //cout <<"\nsplit"<<"("<<this<<")"<<" ";
     int meio=(TAMANHO-1)/2; cout <<"meio: "<< meio <<"\n";
     Pagina *filhoDir,*filhoEsq;
     filhoDir=new Pagina(this);
     filhoEsq=new Pagina(this);
-    cout << "Criados filhoEsq: "<< filhoEsq<<" e filhoDir: "<<filhoDir<<endl;
+
 
     //insere no filho a esquerda,toda a metade inferior da posição [TAMANHO-1/2] e insere os filhos a direita e a esquerda.
     for(int i=0;i<meio;i++){
@@ -283,18 +281,12 @@ void Pagina::split()
 
     }
     filhoEsq->filhos[meio]=this->filhos[meio];
-    cout << "Visita temporaria\n";
-    this->visita();
     /*cout << "Visita temporaria\n";
-    filhoEsq->visita();
     this->visita();*/
-
-
-
 
     //move os demais elementos para pagina a direita.
     int posicao=0,Final=TAMANHO-1;
-    //int i;
+
     for(int i=meio+1;i<Final;i++)
     {
         filhoDir->insereDado(this->retiraDado(i));
@@ -303,12 +295,6 @@ void Pagina::split()
         posicao++;
     }
     filhoDir->filhos[posicao]=this->filhos[Final];// passa o ultimo ponteiro para o filho a direita
-
-
-    /*filhoDir->filhos[meio]=this->filhos[TAMANHO-1];
-    this->filhos[TAMANHO]=NULL;*/
-    cout << "Visita temporaria após mover filho do meio pro começo.\n";
-    this->visita();
 
     //este no se tornou um 2-nó, logo aqui inserimos os filhos a esquerda e a direita.
     this->filhos[0]=filhoEsq;
@@ -324,10 +310,10 @@ void Pagina::split()
     //se nó esta cheio.
     this->encheu();
 
-    cout <<"\t\t >>>>>>> Ao final temos:\n";
+    /*cout <<"\t\t >>>>>>> Ao final temos:\n";
     this->visita();
     filhoEsq->visita();
-    filhoDir->visita();
+    filhoDir->visita();*/
 
 }
 /**
@@ -367,9 +353,8 @@ void Pagina :: absorve(Pagina *no)
     cout <<"<<<<<<<< ABSORVE >>>>>>>>>\n";
     cout <<"queremos absorver no: "<<no <<endl;
 
-    cout<<"queremos saber quem é o pai desse no\n";int filhoPromovido=this->qualFilho(no);cout << filhoPromovido<<endl;
+    int filhoPromovido=this->qualFilho(no);
 
-    cout << "numeroElemento: "<<no->numeroElementos<<endl;
     if(no->numeroElementos==1)
     {
 
@@ -383,14 +368,14 @@ void Pagina :: absorve(Pagina *no)
         this->filhos[filhoPromovido+1]->pai=this;
 
         this->arrumaPonteiros();
-        cout <<"fez tudo só falta delete no."<<endl;
+
         delete no;
-        cout << "e agora?\n";
+
     }
     if(this->cheia){
         this->split();
     }
-    this->visita();
+    //this->visita();
     cout <<"<<<<<<<< FIM ABSORVE >>>>>>>>>\n";
 
 
@@ -534,7 +519,7 @@ for(int i=0;i<TAMANHO && this->filhos[i]!=NULL;i++)
  *  Função reorganiza: percorre cada no da arvore rescursivamente vendo se da pra promover um nó.*/
 void Pagina::reorganiza()
 {
-    cout <<"\t\t<<<<<<<<<<<<<<< entrou na função reorganiza"<< this <<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"<<endl;
+    //cout <<"\t\t<<<<<<<<<<<<<<< entrou na função reorganiza"<< this <<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"<<endl;
     int i=0;
 
     bool eh2no;
@@ -554,7 +539,7 @@ void Pagina::reorganiza()
     {
         this->filhos[i]->reorganiza();
     }
-    cout <<"\t\t<<<<<<<<<<<<<<< Fim da função reorganiza "<<this <<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"<<endl;
+    //cout <<"\t\t<<<<<<<<<<<<<<< Fim da função reorganiza "<<this <<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"<<endl;
 }
 
 void Pagina::percorre()

@@ -18,13 +18,19 @@ int main()
         cout <<"Insercao numero "<<i<<"-"<< "Valor a ser inserido: " << sorteado << "-" <<endl;
         inseridos[i]=sorteado;
         raiz->insere(sorteado);
-        cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Foto Arvore após inserir o "<<sorteado<<" ";
-        cout<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
-        raiz->percorre();
-         cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Fim Foto Arvore "<<sorteado<<" ";
-        cout<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+        //cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Foto Arvore após inserir o "<<sorteado<<" ";
+        //cout<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+        //raiz->percorre();
+         //cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Fim Foto Arvore "<<sorteado<<" ";
+        //cout<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     }
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Foto Arvore ao final ";
+    cout<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
+
     raiz->percorre();
+
+    cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Fim Foto Arvore ";
+    cout<< ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     for(int i=0;i<insercoes;i++){
         cout <<inseridos[i]<<"\n";
     }
