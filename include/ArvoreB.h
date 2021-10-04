@@ -12,7 +12,6 @@ public:
     Pagina();
     Pagina(Pagina *pai);
     virtual ~Pagina();
-    void split();
 
     Pagina *pai;
     Pagina *filhos[TAMANHO];
@@ -27,6 +26,7 @@ public:
     void remover(int elemento);
     void percorre();
     void visita();
+    void split();
 
 private:
         int dados[TAMANHO-1];
@@ -44,6 +44,10 @@ protected:
     int retiraDado(int posicao);//retira um dado de dentro de uma pagina e isere 0 no lugar.
     int qualFilho(Pagina *filhos);
     void absorve(Pagina *no);
+    void arrumaPonteiros();
+    bool sou2node();
+    void separaNosCheios();
+
 
 
 };
