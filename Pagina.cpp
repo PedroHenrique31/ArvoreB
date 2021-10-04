@@ -168,15 +168,12 @@ void Pagina::insere(int novoDado){
 
         if(!this->cheia)
         {
-            //cout <<"arvore não cheia --> ";
+
             this->insereDado(novoDado);
-            //cout<<"inseriu novo dado-- ";
+
             this->encheu();//VERIFICA SE ENCHEU.
-            //cout <<"encheu: " << this->cheia<< "\n";
+
             if(this->cheia){//se encheu nó se divide a si mesmo, como é uma folha nao precisa retornar nada.
-                //cout << "-------------------- Antes de dividir ------------------------------\n";
-                //this->visita();
-                //cout << "-------------------- Antes de dividir ------------------------------\n";
                 this->split();
             }
 
@@ -187,7 +184,7 @@ void Pagina::insere(int novoDado){
         //2.1:PERCORRE OS ELEMENTOS PROCURANDO ONDE INSERIR.
 
         int iteracoes=this->numeroElementos,aposInsercao;
-        //cout <<"CASO 2 "<<novoDado <<" compara "<<this->dados[iteracoes-1]<<endl;
+
         //cout << "CASO 2\n";
         for (int i=0;i<=iteracoes;i++)
         {
@@ -199,18 +196,17 @@ void Pagina::insere(int novoDado){
                 {//caso nó-filho exista.
                     this->filhos[i]->insere(novoDado);
                     ondeFoiInserido=i;
-                    //this->filhos[i]->visita();//remover depois
+
                     this->encheu();
                     if(this->cheia){
                         this->split();
                     }
                     break;
                 }else{//caso this->filho[i]==NULL
-                    //cout << "novoDado: "<<novoDado<< "<="<<this->dados[i]<<", mas filho==NULL"<<endl;
+
                     Pagina *proximo=new Pagina(this); //cria nova pagina
                     proximo->insere(novoDado); // insere novoDado nesta pagina
-                    //cout <<"Após inserir em pagina recém criada.\n";
-                    //proximo->visita();
+
                     this->filhos[i]=proximo; // adiciona esta pagina como i-ésimo filho.
                     this->encheu();// verifica se encheu -Obviamente que não mas é importante verificar smepre-
                     ondeFoiInserido=i;
@@ -281,8 +277,7 @@ void Pagina::split()
 
     }
     filhoEsq->filhos[meio]=this->filhos[meio];
-    /*cout << "Visita temporaria\n";
-    this->visita();*/
+
 
     //move os demais elementos para pagina a direita.
     int posicao=0,Final=TAMANHO-1;
@@ -310,10 +305,6 @@ void Pagina::split()
     //se nó esta cheio.
     this->encheu();
 
-    /*cout <<"\t\t >>>>>>> Ao final temos:\n";
-    this->visita();
-    filhoEsq->visita();
-    filhoDir->visita();*/
 
 }
 /**
@@ -350,15 +341,14 @@ void Pagina::arrumaPonteiros()
  * isso ocorre quando no está cheio e se possui um só filho.*/
 void Pagina :: absorve(Pagina *no)
 {
-    cout <<"<<<<<<<< ABSORVE >>>>>>>>>\n";
-    cout <<"queremos absorver no: "<<no <<endl;
+    //cout <<"<<<<<<<< ABSORVE >>>>>>>>>\n";
 
     int filhoPromovido=this->qualFilho(no);
 
     if(no->numeroElementos==1)
     {
 
-        this->insereDado(no->getDado(0));cout <<"inseriu numero: "<<no->getDado(0)<<endl;
+        this->insereDado(no->getDado(0));
 
         this->filhos[filhoPromovido]=no->filhos[0];
         // Funcao auxiliar para inserir o filho novo no nó, pois talvez ele precise deslocar os proximos pro lado.
@@ -375,8 +365,8 @@ void Pagina :: absorve(Pagina *no)
     if(this->cheia){
         this->split();
     }
-    //this->visita();
-    cout <<"<<<<<<<< FIM ABSORVE >>>>>>>>>\n";
+
+    //cout <<"<<<<<<<< FIM ABSORVE >>>>>>>>>\n";
 
 
 }
@@ -519,7 +509,7 @@ for(int i=0;i<TAMANHO && this->filhos[i]!=NULL;i++)
  *  Função reorganiza: percorre cada no da arvore rescursivamente vendo se da pra promover um nó.*/
 void Pagina::reorganiza()
 {
-    //cout <<"\t\t<<<<<<<<<<<<<<< entrou na função reorganiza"<< this <<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"<<endl;
+
     int i=0;
 
     bool eh2no;
@@ -528,7 +518,7 @@ void Pagina::reorganiza()
         eh2no=this->filhos[i]->sou2node();
         if(eh2no)
         {
-            cout <<"chamado por que é um 2-node\n";
+
             this->absorve(this->filhos[i]);
         }
         }
@@ -539,7 +529,6 @@ void Pagina::reorganiza()
     {
         this->filhos[i]->reorganiza();
     }
-    //cout <<"\t\t<<<<<<<<<<<<<<< Fim da função reorganiza "<<this <<" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"<<endl;
 }
 
 void Pagina::percorre()
