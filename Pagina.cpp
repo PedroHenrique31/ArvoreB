@@ -37,23 +37,6 @@ Pagina::Pagina(Pagina *pai)
 Pagina :: ~Pagina()
 {
     //destrutor
-    //cout << "destruiu esse nó\n";
-    /*for(int i=0;i<TAMANHO;i++)
-    {
-        this->filhos[i]=NULL;
-        this->dados[i]=0;
-        delete this->filhos[i];
-    }
-    this->pai=NULL;
-    delete this->pai;
-    //delete dados;
-    //delete filhos;
-
-    cout << "destruiu esse nó\n";*/
-
-    //COMO É QUE ANTES ESSA FUNÇÃ ESTAVA VAZIA E NÃO DAVA PAU?
-
-
 }
 /**
  *      Funçao encheu: avalia se este nó esta cheio pelo numero de filhos.*/
@@ -625,3 +608,25 @@ void Pagina::remover(int elemento)
         }
     }
 }//FIM remover
+
+/**
+ *      Função removeElementoDaPagina: auxiliar de remover, esta função incialmente está marcada como pública para facilitar
+ *  os testes ela elimina uma determinada posição e insere em seu lugar o elemento a esquerda, vai puxando para a esquerda todos os
+ * elementos até o fim do vetor dados.
+ *
+ * Obs: Para essa função assumimos que:
+ *      a-O elemento existe e está presente na posição x da arvore;
+ *      b-Que não se vai pedir para retirar um elemento inexistente (o elemento 15 sendo que dados tem tamanho 12 por exemplo).
+ *  */
+void Pagina ::removeElementoDaPagina(int posicao)
+{//inicio
+    this->retiraDado(posicao);
+    int posicaoInicial=posicao,posicaoFinal=this->numeroElementos,posicaoAtual=posicao;
+
+    for(int i=posicaoInicial;i<posicaoFinal;i++){
+        this->dados[posicaoAtual]=this->dados[i+1];
+        posicaoAtual++;
+    }
+    this->dados[posicaoAtual]=0;//marca 0 na ultima posição para indicar que vagou
+
+}//fim removeElementoDaPagina

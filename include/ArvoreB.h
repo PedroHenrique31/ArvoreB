@@ -5,7 +5,7 @@
 #ifndef ARVOREB_H
 #define ARVOREB_H
 
-#define TAMANHO 8
+#define TAMANHO 12
 
 class Pagina{
 public:
@@ -27,7 +27,7 @@ public:
     void percorre();//implementada
     void visita();//pode melhorar
 
-
+    void removeElementoDaPagina(int posicao);
 private:
         int dados[TAMANHO-1];
         void desenhaLinha(int espaco);
