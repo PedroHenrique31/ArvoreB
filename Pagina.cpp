@@ -569,7 +569,7 @@ void Pagina::visita()
 
 Pagina* Pagina::busca(int elemento)
 {//Busca
-    //cout <<"elemento buscado: "<< elemento<<" \n";
+
     Pagina *encontrada=NULL;
     int iteracoes=this->numeroElementos,i=0;
     bool folha=this->ehFolha(); //verifica se este nó é uma folha
@@ -583,7 +583,7 @@ Pagina* Pagina::busca(int elemento)
             encontrada=this;
         }else if(elemento < this->dados[i])
         {
-             //cout << "\t\t this->dados["<<i<<"] >"<<elemento<<endl;
+
             if(!folha){encontrada=this->filhos[i]->busca(elemento);}
         }
         i++;
