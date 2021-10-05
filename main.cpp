@@ -6,10 +6,10 @@ using namespace std;
 //TODO: Tenho que descobrir pq o elemento esta retirando os filhos da raiz.
 int main()
 {
-    int insercoes=60,sorteado,inseridos[insercoes];
+    int insercoes=60,sorteado,inseridos[insercoes],buscado=240;
     cout << "Hello world!" << endl;
 
-    Pagina *raiz=new Pagina();
+    Pagina *raiz=new Pagina(),*encontrada;
 
     ArvoreB arvore;
 
@@ -35,5 +35,9 @@ int main()
         cout <<inseridos[i]<<"\n";
     }
     cout <<endl;
+
+    cout <<"Digite um dos numeros acima para buscar "<<endl;
+    encontrada=raiz->busca(buscado);
+    cout << "econtrada: "<<encontrada<<endl;
     return 0;
 }

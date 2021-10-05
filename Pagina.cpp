@@ -565,42 +565,45 @@ void Pagina::visita()
  *      Função busca: realiza a busca dentro da pagina caso não encontre manda para pagina abaixo mais proxima.
  * caso não encontre retorna NULL.
  *
- *      OBS:NÃO IMPLEMENTADA.*/
+ *      OBS:IMPLEMENTADA E APROVADA NOS TESTES.*/
 
 Pagina* Pagina::busca(int elemento)
-{
+{//Busca
+    //cout <<"elemento buscado: "<< elemento<<" \n";
     Pagina *encontrada=NULL;
     int iteracoes=this->numeroElementos,i=0;
-    bool folha=this->ehFolha();
-    if(folha)
+    bool folha=this->ehFolha(); //verifica se este nó é uma folha
+
+    //enquanto não encontrado e não tiver comparado com todos os elementos
+    while(i<iteracoes && encontrada==NULL){
+
+
+        if(this->dados[i]==elemento)
+        {
+            encontrada=this;
+        }else if(elemento < this->dados[i])
+        {
+             //cout << "\t\t this->dados["<<i<<"] >"<<elemento<<endl;
+            if(!folha){encontrada=this->filhos[i]->busca(elemento);}
+        }
+        i++;
+    }
+    i--;//retorna para ultimo dado armazenado na pagina pois há uma ultima comparação.
+
+    //se ainda não foi encontrado siginifica que o elemento é maior que o maior dado armazenado na pagina
+    if(encontrada==NULL && elemento > this->dados[i])
     {
-        while(i<iteracoes || encontrada!=NULL)
-        {
-            if(this->dados[i]==elemento){
-                encontrada=this;
-            }else if(elemento<this->dados[i]){
-                encontrada=this->filhos[i]->busca(elemento);
-            }else if(elemento > this->dados[i]){
-                encontrada=this->filhos[i+1]->busca(elemento);
-            }
-            i++;
-        }
-    }else
-    {//se não tem filhos basta percorrer este nó e ver se encontra o elemento.
-        for(i=0;i<TAMANHO-1;i++)
-        {
-            if(this->dados[i]==elemento){
-                encontrada=this;
-                break;
-            }
-        }
+        // se (NÃO(ehFolha)) entao encontra=este->filho[i+1]->busca(elemento);fimse
+        if(!folha){encontrada=this->filhos[i+1]->busca(elemento);}
     }
     return encontrada;
-}
+}//Fim busca
+
+
 /**
  *  FUNÇÃO REMOVER NÃO IMPLEMENTADA.*/
 void Pagina::remover(int elemento)
-{
+{//inicio remover
     Pagina *paginaAlvo=busca(elemento);
 
     if(paginaAlvo!=NULL)
@@ -621,4 +624,4 @@ void Pagina::remover(int elemento)
             i++;
         }
     }
-}
+}//FIM remover
