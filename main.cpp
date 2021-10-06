@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include "include\ArvoreB.h"
 
+
+
 using namespace std;
 //TODO: Tenho que descobrir pq o elemento esta retirando os filhos da raiz.
 int main()
@@ -15,7 +17,7 @@ int main()
 
     for(int i=0;i<insercoes;i++){
         sorteado=rand()%100;
-        cout <<"Insercao numero "<<i<<"-"<< "Valor a ser inserido: " << sorteado << "-" <<endl;
+        std::cout <<"Insercao numero "<<i<<"-"<< "Valor a ser inserido: " << sorteado << "-" <<std::endl;
         inseridos[i]=sorteado;
         raiz->insere(sorteado);
         //cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Foto Arvore após inserir o "<<sorteado<<" ";
@@ -45,7 +47,7 @@ int main()
     raiz->visita();
     cout <<"--------------------------------- Antes da remoção ------------------------------------"<<endl;
     cout <<"remove o elemento: "<< buscado<<endl;
-    raiz->removeElementoDaPagina(8);
+    raiz->removeElementoDaPaginaFolha(8);
     raiz->visita();
     return 0;
 }

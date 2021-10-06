@@ -618,7 +618,7 @@ void Pagina::remover(int elemento)
  *      a-O elemento existe e está presente na posição x da arvore;
  *      b-Que não se vai pedir para retirar um elemento inexistente (o elemento 15 sendo que dados tem tamanho 12 por exemplo).
  *  */
-void Pagina ::removeElementoDaPagina(int posicao)
+void Pagina ::removeElementoDaPaginaFolha(int posicao)
 {//inicio
     this->retiraDado(posicao);
     int posicaoInicial=posicao,posicaoFinal=this->numeroElementos,posicaoAtual=posicao;

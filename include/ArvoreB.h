@@ -27,7 +27,7 @@ public:
     void percorre();//implementada
     void visita();//pode melhorar
 
-    void removeElementoDaPagina(int posicao);
+    void removeElementoDaPaginaFolha(int posicao);
 private:
         int dados[TAMANHO-1];
         void desenhaLinha(int espaco);

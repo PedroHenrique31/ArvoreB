@@ -1,0 +1,164 @@
+o processo de inserir na arvore B consiste em:
+inicio
+1-Pagina recebe um dado(novoDado);
+2-verifica se esta é uma folha (não possui filhos)
+3-se (éFolha) então 
+        procure inserir ordenadamente elemento na pagina;
+        verifique se esta pagina encheu;
+        se (encheu)
+               dividaPagina;
+        fimse
+senao
+        procure na pagina valor mais proximo que seja maior que novoDado;
+        insira filho abaixo(deste valor); 
+        verifique se esta pagina encheu;
+        se (encheu)
+                dividaPagina;
+        fimse
+senao se novoDado é maior que o maior valor desta pagina
+        insira no filho (a direita do maior valor da pagina);
+fimse
+
+aponte meus filhos para mim();
+
+se (pagina->pai==NULL) entao
+        percorra o no onde foi inserido novoDado avaliando se pode absorver;
+fimse
+
+fim procedimento;
+
+algoritmo insira filho abaixo:
+inicio
+se (o filho abaixo deste valor não for vazio) entao
+                insira no filho abaixo deste valor;
+        senao
+               crie nova pagina;
+               insira novoDado nela;
+               insira nova pagina como filho desta;
+fimse
+fim procedimento; 
+
+
+
+algoritmo: busca(int elemento) retorna *pagina //retorna ponteiro da pagina onde elemento se encontra, retorna NULL se nao encotrar
+inicio
+        Pagina *encontrado=NULL;
+        
+        //entra na pagina
+        int iteracoes=este.numeroElementos,i=0;
+        logico ehFolha=este->ehFolha();
+        
+
+        //percorre a pagina comparando com elemento
+        enquanto (i<iteracoes OU encontrada == NULL)
+                se (este->dados[i]==elemento) entao //elemento encontrado
+                        encontrado=este;
+                senao se (elemento < este->dados[i]) entao 
+                       se (NÃO(ehFolha)) entao encontrada=este->filho[i]->busca(elemento);fimse //busca no filho abaixo deste elemento
+                fimse
+        i++;
+        fimenquanto;// se sair daqui por causa de i significa que i==iteracoes;
+        i--;
+        /*se o elemento buscado ainda não foi encontrada e seu valor for maior que o maior dado inserido vai para o no mais a direita*/
+        se (encontrado==NULL E elemento > este->dados[i]) entao 
+                se (NÃO(ehFolha)) entao encontra=este->filho[i+1]->busca(elemento);fimse
+        fimse;
+
+                //se encontrar retorna o endereço da pagina
+                retorne encontrada;
+                //senao percorre em cada filho.
+fimalgoritmo;
+
+
+algoritmo: remover(int elemento) retorna vazio //remove um elemento da arvore B e não retorna nada
+inicio
+        //1-Busca elemento na arvore;
+              //se nao exitir saia da função
+              //se existir
+                //2-verifique se é um nó folha.
+                //se é uma folha 
+                        /*3-percorre a pagina até encontrar o valor e o retira da arvore trazendo os demais elementos mais para esquerda*/
+                //senao 
+                      /* 3-retira o menor elemento do filho abaixo [0] e insere no local do elemento retirado*/
+                      /* 4-Arruma a arvore.??*/
+                
+fimalgoritmo;
+
+algoritmo: removeElementoDaPagina(int posicao) retorna vazio //remove elemento de uma posição e puxa os demais elementos para esquerda
+inicio
+        este->retiraDado(posicao);
+        int posicaoInicial=posicao,posicaoFinal=este->numeroElementos,posicaoAtual=posicao;
+        
+        para (int i=posicaoInicial;i<posicaoFinal;i++) faca
+                este->dados[posicaoAtual]=este->dados[i+1]; //escreve na posicao atual o que esta escrito no proximo
+                posicaoAtual++;
+        fimpara
+        este->dados[posicaoAtual]=0;
+
+fimalgoritmo
+
+#para esse modulo terei de incluir a biblioteca <cmath>
+/*      Pega elemento da arvore filha e o coloca no local do elemento retirado dessa pagina.
+ * seu comportamento deve variar a depender do tipo de pagina filha que temos abaixo.
+ *              1-Procure nas folhas a esquerda ou a direita o elemento mais proximo do numero a ser retirado
+ *              2-remova esse elemento da folha;
+ *              3-substitua o numero encontrado na posicao que queremos retirar.*/
+algoritmo: removeElementoNoComFilhos(int posicao) retorna vazio
+inicio
+        int candidatoSubstitutoEsq,candidatoSubstitutoDir,numeroDeFilhos=este->numeroElementos,substituto,
+        diferencaEsq,diferencaDir;
+        
+        Pagina *esquerda=este->filhos[posicao],*direita=este->filhos[posicao+1],*elementoAremover;
+        
+        candidatoSubstitutoEsq=esquerda->procuraCandidatoSubstituto(este->dados[posicao]);
+        candidatoSubstitutoDir=direita->procuraCandidatoSubstituto(este->dados[posicao]);
+
+        diferencaEsq=abs(candidatoSubstitutoEsq-este->dados[posicao]);
+        diferencaDir=abs(candidatoSubstitutoDir-este->dados[posicao]);
+        
+        //esses valores podem ser iguais e eu não decidi o que fazer com isso
+        se (diferencaEsq<diferencaDir) entao
+                substituto=diferencaEsq;
+                elementoAremover=esquerda->busca(candidatoSubstitutoEsq);
+        senao 
+                substituto=diferencaDir;
+                elementoAremover=direita->busca(candidatoSubstitutoDir);
+        fimse
+        
+        elementoAremover->removeElementoDaPagina();// falta a posicao onde se encontrao elemento
+        este->dados[posicao]=substituto;
+        
+        
+fimalgoritmo;
+#para esse modulo terei de incluir a biblioteca <cmath>
+/* 1-percorre as subarvores até uma folha 
+ * 2-na folha procure o elemento mais proximo do numero buscado (que minimize a diferença entre [encontrado-buscado])*/
+algoritmo: procuraCandidatoSubstituto(buscado) retorna int
+inicio
+        int numeroFilhos=este->numeroElementos,provisorio,selecionado=0,diferenca=0,diferencaSelecionado=abs(selecionado-buscado);
+        se(NÃO(este->ehFolha())) entao //se este no NÃO é uma folha desce para os filhos
+                para(int i=0;i<numeroDeFilhos;i++) faca 
+                        provisorio=este->filhos[i]->procuraCandidatoSubstituto(buscado);
+                        
+                        diferenca=abs(provisorio-buscado); // avalia a diferenca entre o valor retornado e o buscado
+                        se (diferenca<diferencaSelecionado) faca //se esse valor novo for mais proximo que o ja existente selecione-o
+                               selecionado=provisorio;
+                               diferencaSelecionado=abs(selecionado-buscado);
+                        fimse;
+                fimpara;
+        senao //se for uma folha
+                para (int i=0;i<numeroElementos;i++) faca
+                        provisorio=este->dados[i];//seleciona o i-ésimo elemento para avaliação
+
+
+                        diferenca=abs(provisorio-buscado);// avalia a diferenca entre este valor e o buscado
+                        se (diferenca < diferencaSelecionado) entao // se este numero for mais proximo do buscado selecione-o
+                                selecionado=provisorio;
+                                diferencaSelecionado=abs(selecionado-buscado);
+                        fimse
+                fimpara        
+        fimse
+        retor selecionado;
+fimalgoritmo;
+
+
